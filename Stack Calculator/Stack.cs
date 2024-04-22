@@ -8,8 +8,8 @@ namespace Stack_Calculator
 {
     public interface Stack
     {
-        void Push(int value);
-        int Pop();
+        void Push(double value);
+        double Pop();
         bool IsEmpty();
     }
 }

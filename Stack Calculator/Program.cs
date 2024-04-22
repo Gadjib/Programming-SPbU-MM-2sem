@@ -12,9 +12,15 @@ class Program
     {
         int stackSize = 100;
         ArrayStack stack = new ArrayStack(stackSize);
-        string str = "1 2 + 3 *";
-        double answer = StackCalculator.Calculate(str, stack);
-        Console.WriteLine(answer);
+        string str = "1 2 + 0 /";
+        try
+        {
+            double answer = StackCalculator.Calculate(str, stack);
+            Console.WriteLine(answer);    
+        }
+        catch (InvalidOperationException exception)
+        {
+            Console.WriteLine(exception.Message);
+        }
     }
 }
-

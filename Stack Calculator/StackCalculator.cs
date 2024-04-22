@@ -1,13 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stack_Calculator
 {
+    
     public class StackCalculator
     {
+        public static bool nearlyEqual(double a, double b) 
+        {
+            double absA = Math.Abs(a);
+            double absB = Math.Abs(b);
+            double diff = Math.Abs(a - b);
+            double epsilon = 0.0000001;
+
+            if (a == b) 
+            {
+                return true;
+            } 
+            else if (a == 0 || b == 0 || absA + absB < double.MinValue) 
+            {
+                return diff < (epsilon * double.MinValue);
+            } 
+            else 
+            {
+                return diff / (absA + absB) < epsilon;
+            }
+        }
+
+        static double Add(double operand1, double operand2)
+        {
+            return operand1 + operand2;
+        }
+
+        static double Substract(double operand1, double operand2)
+        {
+            return operand1 - operand2;
+        }
+        
+        static double Multiply(double operand1, double operand2)
+        {
+            return operand1 * operand2;
+        }
+
+        static double Divide(double operand1, double operand2)
+        {
+            if (nearlyEqual(operand2, 0))
+            {
+                throw new InvalidOperationException("Division by zero");
+            }
+            return operand1 / operand2;
+        }
+
+        static Dictionary<string, Func<double, double, double>> operands = new Dictionary<string, Func<double, double, double>>()
+        {
+            {"+", Add},
+            {"-", Substract},
+            {"*", Multiply},
+            {"/", Divide}
+        };
+
+
         public static double Calculate(string expression, Stack stack)
         {
             string[] tokens = expression.Split(' ');
@@ -16,33 +68,24 @@ namespace Stack_Calculator
             {
                 if (int.TryParse(token, out int number))
                 {
-                    stack.Push(number);
+                    stack.Push((double)number);
                 }
                 else
                 {
-                    int operand2 = stack.Pop();
-                    int operand1 = stack.Pop();
-
-                    switch (token)
+                    double operand2 = stack.Pop();
+                    double operand1 = stack.Pop();
+                    
+                    if (operands.ContainsKey(token))
                     {
-                        case "+":
-                            stack.Push(operand1 + operand2);
-                            break;
-                        case "-":
-                            stack.Push(operand1 - operand2);
-                            break;
-                        case "*":
-                            stack.Push(operand1 * operand2);
-                            break;
-                        case "/":
-                            if (operand2 == 0)
-                            {
-                                throw new InvalidOperationException("Division by zero");
-                            }
-                            stack.Push(operand1 / operand2);
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid token: " + token);
+                        var tmp = (operands[token]?.Invoke(operand1, operand2));
+                        if (tmp is not null)
+                        {
+                            stack.Push((double)tmp);
+                        }
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Invalid token: " + token);
                     }
                 }
             }

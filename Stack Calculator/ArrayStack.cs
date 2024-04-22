@@ -8,16 +8,16 @@ namespace Stack_Calculator
 {
     public class ArrayStack : Stack
     {
-        private int[] array;
+        private double[] array;
         private int top;
 
         public ArrayStack(int capacity)
         {
-            array = new int[capacity];
+            array = new double[capacity];
             top = -1;
         }
 
-        public void Push(int value)
+        public void Push(double value)
         {
             if (top == array.Length - 1)
             {
@@ -27,7 +27,7 @@ namespace Stack_Calculator
             array[++top] = value;
         }
 
-        public int Pop()
+        public double Pop()
         {
             if (top == -1)
             {

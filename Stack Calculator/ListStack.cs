@@ -8,26 +8,26 @@ namespace Stack_Calculator
 {
     public class ListStack : Stack
     {
-        private List<int> list;
+        private List<double> list;
 
         public ListStack(int stackSize)
         {
-            list = new List<int>();
+            list = new List<double>();
         }
 
-        public void Push(int value)
+        public void Push(double value)
         {
             list.Add(value);
         }
 
-        public int Pop()
+        public double Pop()
         {
             if (IsEmpty())
             {
                 throw new InvalidOperationException("Stack underflow");
             }
 
-            int value = list[list.Count - 1];
+            double value = list[list.Count - 1];
             list.RemoveAt(list.Count - 1);
             return value;
         }
