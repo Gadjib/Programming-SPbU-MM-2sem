@@ -12,7 +12,7 @@ class Program
     {
         int stackSize = 100;
         ArrayStack stack = new ArrayStack(stackSize);
-        string str = "1 2 + 0 /";
+        string str = "1 2 + 3 *";
         try
         {
             double answer = StackCalculator.Calculate(str, stack);
